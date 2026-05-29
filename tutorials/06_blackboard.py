@@ -110,3 +110,28 @@ def run():
 │  4. 黑板不参与树的结构决策，只是数据载体                   │
 └──────────────────────────────────────────────────────────┘
 """)
+
+def build():
+    bb = Blackboard()
+    bb["player/hunger"] = 60
+    bb["player/food"] = 1
+    root = Sequence("生存策略", [
+        Selector("解决饥饿", [
+            Sequence("吃东西", [
+                Condition("饿了?", is_hungry),
+                Condition("有食物?", have_food),
+                Action("吃食物", consume_food),
+            ]),
+            Sequence("去狩猎", [
+                Condition("饿了?", is_hungry),
+                Action("狩猎", hunt),
+                Action("吃食物", consume_food),
+            ]),
+        ]),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 06：黑板 (Blackboard)",
+        "description": "Blackboard 是所有节点共享数据的字典。节点通过读写黑板协调行为。推荐用命名空间前缀(如 player/hp)避免键冲突。",
+    }

@@ -125,3 +125,22 @@ def run():
 │  4. 常见用途：分步骤任务、检查后执行、前置条件验证         │
 └──────────────────────────────────────────────────────────┘
 """)
+
+
+def build():
+    """构建树并返回 Web 前端所需的数据"""
+    bb = Blackboard()
+    bb["dist_to_door"] = 2
+    bb["door/locked"] = True
+    bb["door/has_key"] = True
+    root = Sequence("开门流程", [
+        Action("走到门前", walk_to_door),
+        Action("解锁", unlock),
+        Action("推门", push_door),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 03：Sequence 顺序节点",
+        "description": "Sequence = 全部成功才算成功(AND)。按顺序执行子节点，遇到 FAILURE 立即停止(短路)，遇到 RUNNING 保留位置下次继续。",
+    }

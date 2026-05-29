@@ -139,3 +139,23 @@ def run():
 │  这就是几乎所有游戏 AI 的基础架构！                       │
 └──────────────────────────────────────────────────────────┘
 """)
+
+def build():
+    bb = Blackboard()
+    bb["npc/can_see_enemy"] = False
+    bb["enemy/hp"] = 10
+    bb["patrol/waypoint"] = 0
+    root = Selector("NPC 行为", [
+        Sequence("战斗", [
+            Condition("敌人在视野?", is_enemy_visible),
+            Action("追击敌人", chase_enemy),
+            Action("攻击敌人", attack_enemy),
+        ]),
+        Action("巡逻", patrol_action),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 08：NPC 战斗 AI",
+        "description": "经典 NPC AI：Selector(战斗分支, 巡逻)。每 tick 从 Selector 开始：有敌人走战斗(追击→攻击)，没敌人走巡逻。",
+    }

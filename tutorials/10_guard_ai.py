@@ -193,3 +193,36 @@ def run():
 │    • 树结构 = 可读的决策逻辑                              │
 └──────────────────────────────────────────────────────────┘
 """)
+
+def build():
+    bb = Blackboard()
+    bb["guard/hp"] = 100
+    bb["guard/potions"] = 2
+    bb["enemy/visible"] = True
+    bb["enemy/distance"] = 6
+    bb["enemy/hp"] = 20
+    bb["guard/flee_dist"] = 10
+    bb["patrol/step"] = 0
+    root = Selector("守卫 AI", [
+        Sequence("濒死逃跑", [
+            Condition("血量危险?", is_low_health),
+            Action("逃跑", flee),
+        ]),
+        Sequence("治疗", [
+            Condition("需要治疗?", is_wounded),
+            Condition("有药水?", has_potion),
+            Action("喝药水", use_potion),
+        ]),
+        Sequence("战斗", [
+            Condition("有敌人?", is_enemy_visible),
+            Action("追击", chase),
+            Action("交战", fight),
+        ]),
+        Action("巡逻", patrol_action),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 10：守卫 AI 综合实战",
+        "description": "完整守卫 AI，综合所有节点类型。优先级：濒死逃跑→治疗→战斗→巡逻。Condition判断状态，Action执行动作，Sequence确保顺序，Selector按优先级选择。",
+    }

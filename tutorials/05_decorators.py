@@ -121,3 +121,15 @@ def run():
 │  4. UntilFail/UntilSuccess: 循环直到条件满足               │
 └──────────────────────────────────────────────────────────┘
 """)
+
+
+def build():
+    """构建树并返回 Web 前端所需的数据"""
+    bb = Blackboard()
+    root = Inverter("没敌人=安全", Condition("敌人存在?", is_enemy_visible))
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 05：装饰节点",
+        "description": "装饰器包装单个子节点：Inverter 翻转成功/失败、Repeater 重复执行、UntilFail 重复直到失败、UntilSuccess 重复直到成功。",
+    }

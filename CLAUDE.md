@@ -9,15 +9,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 常用命令
 
 ```bash
-# 启动交互式教程菜单
+# Web 版（推荐）：启动 Flask 服务器，浏览器访问 http://localhost:5000
+python web/app.py
+
+# CLI 版：启动交互式教程菜单
 python run_tutorial.py
 
-# 直接运行指定教程
+# CLI 版：直接运行指定教程
 python run_tutorial.py 1      # 运行第 1 个教程
 python run_tutorial.py all    # 运行全部教程
 ```
 
-Windows 下如遇中文乱码，使用：
+依赖安装：`pip install flask`
+
+CLI 版 Windows 下如遇中文乱码，使用：
 ```bash
 PYTHONIOENCODING=utf-8 python run_tutorial.py
 ```
@@ -30,8 +35,17 @@ behave_tree/         # 核心库
 ├── leaves.py        # Action（执行动作）和 Condition（检查条件）叶子节点
 ├── composites.py    # Sequence（AND）、Selector（OR/优先级）、Parallel（并行）
 ├── decorators.py    # Inverter、Repeater、UntilFail、UntilSuccess
-├── renderer.py      # 用 ANSI 颜色和 box-drawing 字符可视化树执行状态
-└── executor.py      # 逐步交互执行引擎，每个 tick 渲染树并等待用户输入
+├── serialize.py     # 树结构→JSON 序列化（供 Web API 使用）
+├── renderer.py      # CLI 用 ANSI 颜色和 box-drawing 字符可视化
+└── executor.py      # CLI 用逐步交互执行引擎
+
+web/                 # Web 版前端
+├── app.py           # Flask 后端 API
+├── templates/
+│   └── index.html   # 主页面
+└── static/
+    ├── style.css    # 深色主题样式
+    └── app.js       # 前端交互逻辑
 
 tutorials/           # 10 个渐进式教程
 ├── 01_basics.py     # 三种状态和 Action 节点
@@ -45,6 +59,11 @@ tutorials/           # 10 个渐进式教程
 ├── 09_door_logic.py # 综合：开门多方案逻辑
 ├── 10_guard_ai.py   # 综合：完整守卫 AI
 └── runner.py        # CLI 菜单启动器
+```
+每个教程模块包含：
+- 辅助函数（Action/Condition 的 fn 回调）
+- `build()` — 构建树+黑板，返回 dict（供 Web API 使用）
+- `run()` — CLI 版逐步执行（供命令行教程使用）
 ```
 
 ## 关键设计

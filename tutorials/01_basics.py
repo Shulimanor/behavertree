@@ -90,3 +90,15 @@ def run():
 │  这也是行为树在游戏 AI 中如此流行的核心原因。              │
 └──────────────────────────────────────────────────────────┘
 """)
+
+
+def build():
+    """构建树并返回 Web 前端所需的数据"""
+    bb = Blackboard()
+    root = Action("一次攻击", always_succeed)
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 01：行为树基础",
+        "description": "行为树有三种核心状态：SUCCESS(成功)、FAILURE(失败)、RUNNING(运行中)。RUNNING 让 AI 可以跨 tick 执行长时间行为。",
+    }

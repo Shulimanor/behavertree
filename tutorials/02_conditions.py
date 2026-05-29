@@ -101,3 +101,17 @@ def run():
 │  下一个教程会展示如何把 Condition 和 Action 组合起来！     │
 └──────────────────────────────────────────────────────────┘
 """)
+
+
+def build():
+    """构建树并返回 Web 前端所需的数据"""
+    bb = Blackboard()
+    bb["door/locked"] = True
+    bb["door/has_key"] = True
+    root = Condition("检查锁", is_door_locked)
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 02：条件节点",
+        "description": "Condition 检查布尔条件，返回 SUCCESS(条件成立) 或 FAILURE(条件不成立)，永不返回 RUNNING。",
+    }

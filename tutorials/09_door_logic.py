@@ -177,3 +177,35 @@ def run():
 │     不需要读代码就能理解 NPC 会怎么尝试开门               │
 └──────────────────────────────────────────────────────────┘
 """)
+
+def build():
+    bb = Blackboard()
+    bb["dist_to_door"] = 2
+    bb["door/locked"] = True
+    bb["player/has_key"] = True
+    bb["player/strength"] = 5
+    root = Sequence("开门", [
+        Action("走到门前", walk_to_door),
+        Selector("尝试开门", [
+            Sequence("直接推", [
+                Condition("没锁?", is_unlocked),
+                Action("推开", push_open),
+            ]),
+            Sequence("用钥匙", [
+                Condition("有钥匙?", has_key),
+                Action("解锁", unlock_door),
+                Action("推开", push_open),
+            ]),
+            Sequence("撞开", [
+                Condition("够强壮?", is_strong),
+                Action("撞门", bash_door),
+            ]),
+            Action("放弃", give_up),
+        ]),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 09：开门逻辑",
+        "description": "展示 Selector 多方案回退：走到门前→尝试直接推→用钥匙→撞开→放弃。Sequence 确保步骤顺序，Selector 提供优先级选择。",
+    }

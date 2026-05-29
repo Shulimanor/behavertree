@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行为树交互教程</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- 顶部栏 -->
+<header>
+  <h1>行为树 (Behavior Tree) 交互教程</h1>
+  <span class="subtitle">逐步观察 AI 如何决策</span>
+</header>
+
+<!-- 主体三栏 -->
+<div class="main-layout">
+
+  <!-- 左侧面板：教程列表 + 说明 -->
+  <aside id="left-panel">
+    <h3>教程列表</h3>
+    <nav id="tutorial-nav"></nav>
+    <div id="tutorial-desc" class="desc-box">
+      <p><em>选择一个教程开始</em></p>
+    </div>
+  </aside>
+
+  <!-- 中间面板：树可视化 -->
+  <main id="center-panel">
+    <!-- 图例 -->
+    <div class="legend">
+      <span class="legend-item"><span class="dot idle"></span> 未执行</span>
+      <span class="legend-item"><span class="dot success"></span> 成功 SUCCESS</span>
+      <span class="legend-item"><span class="dot failure"></span> 失败 FAILURE</span>
+      <span class="legend-item"><span class="dot running"></span> 运行中 RUNNING</span>
+      <span class="legend-item sep">|</span>
+      <span class="legend-item"><b>Seq</b> = Sequence(AND)</span>
+      <span class="legend-item"><b>Sel</b> = Selector(OR)</span>
+      <span class="legend-item"><b>Act</b> = Action</span>
+      <span class="legend-item"><b>Cond</b> = Condition</span>
+    </div>
+
+    <div id="tree-container">
+      <p class="placeholder">请先选择一个教程</p>
+    </div>
+  </main>
+
+  <!-- 右侧面板：黑板 + 日志 -->
+  <aside id="right-panel">
+    <div class="panel-section">
+      <h3>黑板 (Blackboard)</h3>
+      <div id="blackboard">
+        <p class="placeholder">暂无数据</p>
+      </div>
+    </div>
+    <div class="panel-section">
+      <h3>执行日志</h3>
+      <div id="log-container">
+        <p class="placeholder">暂无日志</p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- 底部控制栏 -->
+<footer>
+  <div class="controls">
+    <button id="btn-step" disabled>单步执行</button>
+    <button id="btn-auto" disabled>自动播放</button>
+    <button id="btn-stop" disabled>暂停</button>
+    <button id="btn-reset" disabled>重置</button>
+    <label>速度: <input type="range" id="speed" min="200" max="2000" value="800" step="100"></label>
+    <span id="tick-counter">Tick: 0/0</span>
+  </div>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

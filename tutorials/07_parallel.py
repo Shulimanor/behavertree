@@ -134,3 +134,16 @@ def run():
 │  4. 选择策略决定最终的成败判定方式                         │
 └──────────────────────────────────────────────────────────┘
 """)
+
+def build():
+    bb = Blackboard()
+    root = Parallel("边走边动", [
+        Action("播放动画", update_animation),
+        Action("向前移动", move_forward),
+    ], policy=ParallelPolicy.ALL)
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 07：Parallel 并行节点",
+        "description": "Parallel 在同一 tick 内执行所有子节点，不短路。三种策略：ALL(全成功)、ANY(任一成功)、NONE_FAIL(无失败)。",
+    }

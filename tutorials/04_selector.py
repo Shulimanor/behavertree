@@ -127,3 +127,21 @@ def run():
 │  4. 组合配方：Selector(尝试1, 尝试2, ..., 兜底方案)       │
 └──────────────────────────────────────────────────────────┘
 """)
+
+
+def build():
+    """构建树并返回 Web 前端所需的数据"""
+    bb = Blackboard()
+    bb["enemy/distance"] = 80
+    bb["ammo"] = 0
+    root = Selector("战斗策略", [
+        Action("远程攻击", ranged_attack),
+        Action("近战攻击", melee_attack),
+        Action("撤退", retreat),
+    ])
+    return {
+        "root": root,
+        "blackboard": bb,
+        "title": "教程 04：Selector 选择节点",
+        "description": "Selector = 有一个成功就行(OR/优先级)。按优先级尝试子节点，遇到 SUCCESS 立即停止(短路)，全部失败才返回 FAILURE。",
+    }
